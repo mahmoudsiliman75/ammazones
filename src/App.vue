@@ -11,7 +11,7 @@
 export default {
   computed: {
     handleShowNav() {
-      if (this.$route.path == "/" || this.$route.path == "/login" ) {
+      if (this.$route.path == "/" || this.$route.path.includes("/login")) {
         return false;
       }
       else {

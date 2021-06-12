@@ -10,8 +10,8 @@
     </div>
 
     <div class="btns_wraper mt-4">
-      <router-link to="/" class="my-2"> حساب عميل </router-link>
-      <router-link to="/" class="my-2"> حساب مقدم خدمة </router-link>
+      <router-link to="/login/client" class="my-2"> حساب عميل </router-link>
+      <router-link to="/login/provider" class="my-2"> حساب مقدم خدمة </router-link>
     </div>
   </div>
 </template>

@@ -13,7 +13,7 @@ const routes = [
     component: SelectAccType,
   },
   {
-    path: "/login",
+    path: "/login/:type",
     name: "LoginForm",
     component: LoginForm,
   },
