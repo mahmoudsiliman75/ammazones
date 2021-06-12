@@ -1,0 +1,81 @@
+@mixin boxSizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+
+@mixin transitioning($t) {
+  -moz-transition: all $t ease-in-out;
+  -webkit-transition: all $t ease-in-out;
+  -o-transition: all $t ease-in-out;
+  transition: all $t ease-in-out;
+}
+
+@mixin borderRadius($br) {
+  -moz-border-radius: $br;
+  -webkit-border-radius: $br;
+  -o-border-radius: $br;
+  border-radius: $br;
+}
+
+@mixin mainBtnStyle {
+  text-decoration: none;
+  border: none;
+  padding: 10px 12px;
+  width: 250px;
+  font-weight: 700;
+  background-color: $secondaryColor;
+  color: $mainColor;
+  box-shadow: 0 15px 60px -15px $secondaryColor;
+  @include borderRadius($largeBorderRadiusAmount);
+}
+
+@mixin secondaryBtnStyle {
+  text-decoration: none;
+  border: none;
+  padding: 10px 12px;
+  width: 250px;
+  font-weight: 700;
+  background-color: $lighterGray;
+  box-shadow: 0px 25px 55px -15px #b4b4b4;
+  color: $darkGray;
+  @include borderRadius($largeBorderRadiusAmount);
+}
+
+@mixin flexCenterAlignment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flexStartAlignment {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin flexEndAlignment {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@mixin textWraper {
+  word-break: break-word;
+  word-spacing: 2px;
+  font-size: 18px;
+  color: $lightGray;
+  line-height: 1.6;
+}
+
+@mixin simpleShadow {
+  box-shadow: 0 0 10px 2px rgba(225, 225, 225, 0.3);
+}
+
+@mixin midShadow {
+  box-shadow: 0 0 10px 2px rgba(225, 225, 225, 0.6);
+}
+
+@mixin heighShadow {
+  box-shadow: 0 0 10px 2px rgba(180, 180, 180, 0.6);
+}
