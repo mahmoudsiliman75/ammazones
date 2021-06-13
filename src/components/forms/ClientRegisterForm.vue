@@ -54,7 +54,7 @@
             <option
               v-for="area in areas"
               :key="area.id"
-              :value="area.id"
+              :value="area.name"
             > 
               {{area.name}} 
             </option>
