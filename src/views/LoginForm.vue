@@ -9,13 +9,13 @@
       <p> قم بتسجيل دخول بإدخالك للبيانات التالية </p>
     </div>
 
-    <form class="mt-4">
+    <form class="mt-4" @submit.prevent="submitForm">
       <div class="form-group mt-4">
         <input type="email" class="form-control" id="email" placeholder="البريد الإلكتروني">
       </div>
 
       <div class="form-group mt-4">
-        <input type="email" class="form-control" id="email" placeholder="كلمة المرور">
+        <input type="password" class="form-control" id="password" placeholder="كلمة المرور">
       </div>
 
       <p class="forget_text"> نسيت كلمة المرور </p>
@@ -24,10 +24,43 @@
         <button class="my-2"> تسجيل دخول </button>
       </div>
 
-      <p class="create_acc_text"> ليس لديك حساب؟ <span> إنشاء حساب </span> </p>
+      <p class="create_acc_text"> ليس لديك حساب؟ <router-link :to="{name: 'RegisterForm', params: { type: this.$route.params.type } }"> إنشاء حساب </router-link> </p>
     </form>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      formIsValid: true,
+    }
+  },
+
+  mounted() {
+    console.log(this.$route.params.type);
+  },
+
+  methods: {
+    showAlert(msg) {
+      this.$swal({
+        icon: 'error',
+        text: msg,
+      });
+    },
+
+    submitForm() {
+      this.formIsValid = true;
+      if ( this.email === '' || !this.email.includes('@') || this.password === '' ) {
+        this.showAlert('برجاء ادخال بريد الكترونى و كلمة مرور صحيحين');
+        return
+      }
+    }
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 @import '../assets/sass/main.scss';
@@ -79,7 +112,7 @@
       margin-top: 20px;
       color: $midGray;
       font-size: 13px;
-      span {
+      a {
         color: $secondaryColor;
         text-decoration: underline;
       }

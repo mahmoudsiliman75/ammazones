@@ -1,0 +1,119 @@
+<template>
+  <form class="client_register_form" @submit.prevent="submitForm">
+    <p class="create_acc_text">  لديك حساب بالفعل؟ <router-link :to="{name: 'LoginForm', params: { type: this.$route.params.type } }"> تسجيل دخول </router-link> </p>
+    عميل
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="text" class="form-control" id="name" v-model="regData.name" placeholder="الإسم">
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="text" class="form-control" id="user_name" placeholder="إسم المستخدم">
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="tele" class="form-control" id="phone" v-model="regData.phone" placeholder="رقم الجوال">
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="email" class="form-control" id="email" v-model="regData.email" placeholder="البريد الإلكترونى">
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="text" class="form-control" id="city" v-model="regData.city_id" placeholder="المدينة">
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="text" class="form-control" id="area" v-model="regData.area" placeholder="المنطقة">
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="password" class="form-control" id="password" v-model="regData.password"  placeholder="كلمة المرور">
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="password" class="form-control" id="confirm_password" v-model="regData.password_confirmation"  placeholder="تأكيد كلمةالمرور">
+        </div>
+      </div>
+    </div>
+
+    <div class="btns_wraper mt-4">
+      <button class="my-2"> تسجيل دخول </button>
+    </div>
+  </form>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+  props: ["regData"],
+
+  methods: {
+    submitForm() {
+      axios.post('http://elsaed.rmal.com.sa/ammazones/public/api/auth/clientRegister',this.regData)
+      .then( res => console.log(res) )
+      .catch( error => console.log(error) );
+
+      // axios.post(this.$store.state.api_link+'api/clients/register', this.signupData)
+      // .then ( res => {
+      //   if ( res.data.success == true ) {
+      //     this.saveUserDataAtLocalStorage(res)
+      //     this.$router.push('/')
+      //   } else {
+      //     this.sweetAlert(res.data.message)
+      //   }
+      //   })
+      // .catch( error => console.log(error) );
+    }
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../../assets/sass/main.scss';
+
+form {
+  width: 800px;
+
+  .btns_wraper {
+    button {
+      display: inline-block;
+      @include mainBtnStyle;
+      margin-inline: 15px;
+    }
+  }
+
+  .create_acc_text {
+    margin-top: 20px;
+    color: $midGray;
+    font-size: 13px;
+    a {
+      color: $secondaryColor;
+      text-decoration: underline;
+    }
+  }
+}
+
+@media ( max-width: 767px ) {
+  form {
+    width: 400px;
+  }
+}
+
+</style>

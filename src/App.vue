@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <div id="nav" v-if="handleShowNav">
-      <router-link to="/home">Home</router-link>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/acctype">Login</router-link>
     </div>
     <router-view />
   </div>
@@ -11,7 +12,7 @@
 export default {
   computed: {
     handleShowNav() {
-      if (this.$route.path == "/" || this.$route.path.includes("/login")) {
+      if (this.$route.path == "/acctype" || this.$route.path.includes("/login") || this.$route.path.includes("/register")) {
         return false;
       }
       else {
