@@ -51,6 +51,7 @@ export default {
 @import '../assets/sass/main.scss';
 
 .register_form_wraper {
+  padding: 25px 0;
   min-height: 100vh;
   @include flexCenterAlignment;
   flex-direction: column;
