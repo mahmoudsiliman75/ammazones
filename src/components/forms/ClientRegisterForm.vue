@@ -11,6 +11,9 @@
       <div class="col-12 col-md-6 my-2">
         <div class="form-group mt-4">
           <input type="text" class="form-control" id="name" v-model="regData.name" placeholder="الإسم">
+          <div class="alert alert-danger mt-3" role="alert">
+            A simple danger alert—check it out!
+          </div>
         </div>
       </div>
 
@@ -97,29 +100,34 @@ export default {
 
   mounted() {
     axios.get('http://elsaed.rmal.com.sa/ammazones/public/api/general/all-countries')
-    .then( res => {
-      this.countries = res.data.data;
-    })
+    .then( res => this.countries = res.data.data)
   },
 
   methods: {
     handleFileInputChange(e) {
-      this.data.append('avatar', e.target.files[0]); 
+      this.data.append('avatar', e.target.files[0]);
     },
 
     getAreas() {
       axios.get('http://elsaed.rmal.com.sa/ammazones/public/api/general/cities', { 
         params: { country_id: this.regData.city_id } 
       })
-      .then( res => {
-        this.areas = res.data.data;
-      })
+      .then(res => this.areas = res.data.data)
     },
 
     submitForm() {
-      axios.post('http://elsaed.rmal.com.sa/ammazones/public/api/auth/clientRegister',this.data)
+      this.data.append('type', 'user');
+      this.data.append('name', this.regData.name);
+      this.data.append('email', this.regData.email);
+      this.data.append('phone', this.regData.phone);
+      this.data.append('area', this.regData.area);
+      this.data.append('city_id', this.regData.city_id);
+      this.data.append('password', this.regData.password);
+      this.data.append('password_confirmation', this.regData.password_confirmation);
+
+      axios.post('http://elsaed.rmal.com.sa/ammazones/public/api/auth/clientRegister', this.data)
       .then( res => console.log(res) )
-      .catch( error => console.log(error) );
+      .catch( error => console.log(error.response ) )
     }
   },
 }
