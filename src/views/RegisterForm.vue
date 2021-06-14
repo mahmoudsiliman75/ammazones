@@ -34,6 +34,7 @@ export default {
       clientRegisterData: {
         type: 'user',
         name: '',
+        user_name: '',
         email: '',
         phone: '',
         area: '',

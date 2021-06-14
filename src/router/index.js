@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 
 import Home from "../views/Home.vue";
 import SelectAccType from "../views/SelectAccType.vue";
-import RegisterForm from "../pages/RegisterForm.vue";
+import RegisterForm from "../views/RegisterForm.vue";
 import LoginForm from "../views/LoginForm.vue";
 
 Vue.use(VueRouter);

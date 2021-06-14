@@ -2,36 +2,65 @@
   <form class="client_register_form" @submit.prevent="submitForm">
     <p class="create_acc_text">  لديك حساب بالفعل؟ <router-link :to="{name: 'LoginForm', params: { type: this.$route.params.type } }"> تسجيل دخول </router-link> </p>
     <div class="row justify-content-center">
-      <div class="col-12 my-2">
-        <div class="form-group mt-4">
-          <input type="file" class="form-control" @change="handleFileInputChange">
-        </div>
-      </div>
 
-      <div class="col-12 col-md-6 my-2">
-        <div class="form-group mt-4">
-          <input type="text" class="form-control" id="name" v-model="regData.name" placeholder="الإسم">
-          <div class="alert alert-danger mt-3" role="alert">
-            A simple danger alert—check it out!
+      <div class="col-12 my-2 d-flex justify-content-center align-items-center">
+        <div class="form-group field_img mt-4">
+          <input id="pro_img" name="image" type='file' @change="handleFileInputChange" />
+          <label for="pro_img">
+            <img id="product_img" src="../../assets/media/img_placeholder.png" alt="your image" />
+          </label>
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!avatarIsValid"
+          >
+            {{avatarValidationMsg}}
           </div>
         </div>
       </div>
 
       <div class="col-12 col-md-6 my-2">
         <div class="form-group mt-4">
-          <input type="text" class="form-control" id="user_name" placeholder="إسم المستخدم">
+          <input type="text" class="form-control" id="name" v-model.trim="regData.name" placeholder="الإسم">
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!nameIsValid"
+          >
+            {{nameValidationMsg}}
+          </div>
         </div>
       </div>
 
       <div class="col-12 col-md-6 my-2">
         <div class="form-group mt-4">
-          <input type="tele" class="form-control" id="phone" v-model="regData.phone" placeholder="رقم الجوال">
+          <input type="text" class="form-control" id="user_name" v-model.trim="regData.user_name" placeholder="إسم المستخدم">
         </div>
       </div>
 
       <div class="col-12 col-md-6 my-2">
         <div class="form-group mt-4">
-          <input type="email" class="form-control" id="email" v-model="regData.email" placeholder="البريد الإلكترونى">
+          <input type="tele" class="form-control" id="phone" v-model.trim="regData.phone" placeholder="رقم الجوال">
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!phoneIsValid"
+          >
+            {{phoneValidationMsg}}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="email" class="form-control" id="email" v-model.trim="regData.email" placeholder="البريد الإلكترونى">
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!emailIsValid"
+          >
+            {{emailValidationMsg}}
+          </div>
         </div>
       </div>
 
@@ -47,6 +76,13 @@
               {{country.name}} 
             </option>
           </select>
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!cityIsValid"
+          >
+            {{cityValidationMsg}}
+          </div>
         </div>
       </div>
 
@@ -62,18 +98,39 @@
               {{area.name}} 
             </option>
           </select>
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!areaIsValid"
+          >
+            {{areaValidationMsg}}
+          </div>
         </div>
       </div>
 
       <div class="col-12 col-md-6 my-2">
         <div class="form-group mt-4">
-          <input type="password" class="form-control" id="password" v-model="regData.password"  placeholder="كلمة المرور">
+          <input type="password" class="form-control" id="password" v-model.trim="regData.password"  placeholder="كلمة المرور">
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!passwordIsValid"
+          >
+            {{passwordValidationMsg}}
+          </div>
         </div>
       </div>
 
       <div class="col-12 col-md-6 my-2">
         <div class="form-group mt-4">
-          <input type="password" class="form-control" id="confirm_password" v-model="regData.password_confirmation"  placeholder="تأكيد كلمةالمرور">
+          <input type="password" class="form-control" id="confirm_password" v-model.trim="regData.password_confirmation"  placeholder="تأكيد كلمةالمرور">
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!password_confirmationIsValid"
+          >
+            {{password_confirmationValidationMsg}}
+          </div>
         </div>
       </div>
     </div>
@@ -95,6 +152,30 @@ export default {
       countries: null,
       areas: null, 
       data: new FormData(),
+
+      avatarIsValid: true,
+      avatarValidationMsg: '',
+
+      nameIsValid: true,
+      nameValidationMsg: '',
+
+      phoneIsValid: true,
+      phoneValidationMsg: '',
+
+      emailIsValid: true,
+      emailValidationMsg: '',
+
+      cityIsValid: true,
+      cityValidationMsg: '',
+
+      areaIsValid: true,
+      areaValidationMsg: '',
+
+      passwordIsValid: true,
+      passwordValidationMsg: '',
+
+      password_confirmationIsValid: true,
+      password_confirmationValidationMsg: '',
     }
   },
 
@@ -104,8 +185,23 @@ export default {
   },
 
   methods: {
+    showAlert(msg) {
+      this.$swal({
+        icon: 'success',
+        text: msg,
+      });
+    },
+
     handleFileInputChange(e) {
+      console.log(e.target)
       this.data.append('avatar', e.target.files[0]);
+      if (e.target.files && e.target.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          document.querySelector('#product_img').setAttribute('src', e.target.result);
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      }
     },
 
     getAreas() {
@@ -125,9 +221,66 @@ export default {
       this.data.append('password', this.regData.password);
       this.data.append('password_confirmation', this.regData.password_confirmation);
 
+      this.avatarIsValid = true;
+      this.nameIsValid = true;
+      this.phoneIsValid = true;
+      this.emailIsValid = true;
+      this.cityIsValid = true;
+      this.areaIsValid = true;
+      this.passwordIsValid = true;
+      this.password_confirmationIsValid = true;
+
       axios.post('http://elsaed.rmal.com.sa/ammazones/public/api/auth/clientRegister', this.data)
-      .then( res => console.log(res) )
-      .catch( error => console.log(error.response ) )
+      .then( res => {
+        if ( res.data.status == true ) {
+          this.showAlert(res.data.msg);
+          this.regData.name = '';
+          this.regData.user_name = '';
+          this.regData.email = '';
+          this.regData.phone = '';
+          this.regData.area = '';
+          this.regData.city_id = '';
+          this.regData.password = '';
+          this.regData.password_confirmation = '';
+
+          this.saveUserDataAtLocalStorage(res);
+
+          this.$router.replace('/');
+        }
+      })
+      .catch( error => {
+        console.log(error.response.data ) 
+        if ( error.response.data.field == 'avatar' ) {
+          this.avatarIsValid = false;
+          this.avatarValidationMsg = error.response.data.msg;
+        } else if ( error.response.data.field == 'name' ) {
+          this.nameIsValid = false;
+          this.nameValidationMsg = error.response.data.msg;
+        } else if ( error.response.data.field == 'phone' ) {
+          this.phoneIsValid = false;
+          this.phoneValidationMsg = error.response.data.msg;
+        } else if ( error.response.data.field == 'email' ) {
+          this.emailIsValid = false;
+          this.emailValidationMsg = error.response.data.msg;
+        } else if ( error.response.data.field == 'city_id' ) {
+          this.cityIsValid = false;
+          this.cityValidationMsg = error.response.data.msg;
+        } else if ( error.response.data.field == 'area' ) {
+          this.areaIsValid = false;
+          this.areaValidationMsg = error.response.data.msg;
+        } else if ( error.response.data.field == 'password' ) {
+          this.passwordIsValid = false;
+          this.passwordValidationMsg = error.response.data.msg;
+        } else if ( error.response.data.field == 'password_confirmation' ) {
+          this.password_confirmationIsValid = false;
+          this.password_confirmationValidationMsg = error.response.data.msg;
+        }
+      });
+    },
+
+    saveUserDataAtLocalStorage(res) {
+      localStorage.setItem('user_token', res.data.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.data));
     }
   },
 }
@@ -144,6 +297,31 @@ form {
       display: inline-block;
       @include mainBtnStyle;
       margin-inline: 15px;
+    }
+  }
+
+  .field_img {
+    display: block;
+    background: transparent;
+    width: 250px;
+    height: 150px;
+    & > input {
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+      width: 100%;
+      padding: 15px 5px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: none;
+    }
+    label {
+      position: relative;
+      text-align: center;
+      cursor: pointer;
+    }
+    img {
+      max-width: 250px;
+      height: 150px;
+      border-radius: 10px;
     }
   }
 
