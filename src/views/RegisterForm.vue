@@ -16,6 +16,7 @@
 
     <ProviderRegisterForm 
       v-if="this.$route.path === '/register/provider' "
+      :regData="clientRegisterData"
     />
   </div>
 </template>
