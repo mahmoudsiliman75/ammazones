@@ -5,20 +5,20 @@
     </button>
 
     <div class="col-12 px-0 row">
-      <div class="col-3">
+      <div class="col-6 col-md-3 order-2 order-md-1 my-2 my-md-0">
         <router-link class="navbar-brand m-0 p-0" to="/">
           <img src="../../assets/media/logo.png">
         </router-link>
       </div>
 
-      <div class="col-6 d-flex justify-content-center align-items-center">
+      <div class="col-12 col-md-6 order-1 order-md-2 d-flex justify-content-center align-items-center">
         <form>
           <input class="form-control bg-light" type="search" placeholder="إبحث هنا" aria-label="Search">
           <button class="btn" type="submit">بحث</button>
         </form>
       </div>
 
-      <div class="col-3 d-flex justify-content-center align-items-center">
+      <div class="col-6 col-md-3 order-3 order-md-3 d-flex justify-content-center align-items-center my-2 my-md-0">
         <router-link to="/">
           <img src="../../assets/media/icons/home.png" class="mx-3">
         </router-link>
@@ -36,7 +36,7 @@
         </router-link>
       </div>
 
-      <div class="collapse navbar-collapse col-12 mt-3" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse order-4 col-12 mt-3" id="navbarSupportedContent">
         <ul class="navbar-nav d-flex justify-content-around align-items">
           <li class="nav-item dropdown_wraper">
             <span class="nav-link">
@@ -189,8 +189,12 @@ nav {
             background-color: $white;
             border-bottom: 1px solid $mainColor;
             @include transitioning(0.4s);
+            &:first-child {
+              border-radius: 5px 5px 0 0;
+            }
             &:last-child {
               border-bottom: none;
+              border-radius: 0 0 5px 5px;
             }
             &:hover {
               background-color: #f2f2f2;
