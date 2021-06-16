@@ -11,11 +11,25 @@
 
     <form class="mt-4" @submit.prevent="submitForm">
       <div class="form-group mt-4">
-        <input type="email" class="form-control" id="email" placeholder="البريد الإلكتروني">
+        <input type="email" class="form-control" id="email" v-model="loginData.email" placeholder="البريد الإلكتروني">
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!emailIsValid"
+          >
+            {{emailValidationMsg}}
+          </div>
       </div>
 
       <div class="form-group mt-4">
-        <input type="password" class="form-control" id="password" placeholder="كلمة المرور">
+        <input type="password" class="form-control" id="password" v-model="loginData.password" placeholder="كلمة المرور">
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!passwordIsValid"
+          >
+            {{passwordValidationMsg}}
+          </div>
       </div>
 
       <p class="forget_text"> نسيت كلمة المرور </p>
@@ -30,33 +44,64 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      email: '',
-      password: '',
-      formIsValid: true,
+      loginData: {
+        email: '',
+        password: '',
+      },
+
+      emailIsValid: true,
+      emailValidationMsg: '',
+
+      passwordIsValid: true,
+      passwordValidationMsg: '',
     }
   },
 
-  mounted() {
-    console.log(this.$route.params.type);
-  },
-
   methods: {
-    showAlert(msg) {
+    showAlert(type, msg) {
       this.$swal({
-        icon: 'error',
+        icon: type,
         text: msg,
       });
     },
 
     submitForm() {
-      this.formIsValid = true;
-      if ( this.email === '' || !this.email.includes('@') || this.password === '' ) {
-        this.showAlert('برجاء ادخال بريد الكترونى و كلمة مرور صحيحين');
-        return
+      if ( this.loginData.email == '' ) {
+        this.showAlert('error', 'البريد الإلكترونى لايجب ان يكون فارغ');
+        return;
+      } else if ( !this.loginData.email.includes('@') ) {
+        this.showAlert('error', 'يجب ادخال بريد لإلكترونى صحيح');
+        return;
+      } else if ( this.loginData.password == '' ) {
+        this.showAlert('error', 'كلمة المرور لايمكن ان تكون فارغة');
+        return;
       }
+
+      this.emailIsValid = true;
+      this.passwordIsValid = true;
+
+      axios.post('http://elsaed.rmal.com.sa/ammazones/public/api/auth/login', this.loginData)
+      .then(res => {
+        console.log(res.data)
+        if (res.data.status === true ) {
+          this.showAlert( 'success', res.data.msg );
+        }
+      })
+      .catch ( error => {
+        console.log(error.response.data)
+        if ( error.response.data.field === 'email' ) {
+          this.emailIsValid = false;
+          this.emailValidationMsg = error.response.data.msg;
+        } else if ( error.response.data.field === 'password' ) {
+          this.passwordIsValid = false;
+          this.passwordValidationMsg = error.response.data.msg;
+        }
+      })
     }
   },
 };

@@ -4,7 +4,9 @@
       v-if="handleShowNav"
     />
     <router-view />
-    <TheFooter />
+    <TheFooter 
+      v-if="handleShowNav"
+    />
   </div>
 </template>
 
