@@ -280,7 +280,8 @@ export default {
 
     saveUserDataAtLocalStorage(res) {
       localStorage.setItem('user_token', res.data.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.data));
+      localStorage.setItem('user_type', res.data.data.type);
+      localStorage.setItem('user_data', JSON.stringify(res.data.data));
     }
   },
 }

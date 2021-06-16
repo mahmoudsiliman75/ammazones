@@ -90,6 +90,8 @@ export default {
         console.log(res.data)
         if (res.data.status === true ) {
           this.showAlert( 'success', res.data.msg );
+          this.saveUserDataAtLocalStorage(res);
+          this.$router.replace('/');
         }
       })
       .catch ( error => {
@@ -102,6 +104,12 @@ export default {
           this.passwordValidationMsg = error.response.data.msg;
         }
       })
+    },
+
+    saveUserDataAtLocalStorage(res) {
+      localStorage.setItem('user_token', res.data.data.token);
+      localStorage.setItem('user_type', res.data.data.type);
+      localStorage.setItem('user_data', JSON.stringify(res.data.data));
     }
   },
 };

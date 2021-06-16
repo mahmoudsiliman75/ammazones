@@ -23,15 +23,24 @@
           <img src="../../assets/media/icons/home.png" class="mx-3">
         </router-link>
 
-        <router-link to="/">
+        <router-link 
+          to="/"
+          v-if="userIsClient"
+        >
           <img src="../../assets/media/icons/shopping-cart.png" class="mx-3">
         </router-link>
 
-        <router-link to="/">
+        <router-link 
+          to="/"
+          v-if="userIsClient"
+        >
           <img src="../../assets/media/icons/heart-empty.png" class="mx-3">
         </router-link>
 
-        <router-link to="/">
+        <router-link 
+          to="/"
+          v-if="userIsClient"
+        >
           <img src="../../assets/media/icons/Profile.png" class="mx-3">
         </router-link>
 
@@ -116,7 +125,13 @@ export default {
     return {
       date: new Date(),
     }
-  }
+  },
+
+  computed: {
+    userIsClient() {
+      return localStorage.getItem('user_type') == 'user' && localStorage.getItem('user_token') != ''
+    },
+  },
 }
 </script>
 
