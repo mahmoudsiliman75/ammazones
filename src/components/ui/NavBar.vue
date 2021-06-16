@@ -34,6 +34,10 @@
         <router-link to="/">
           <img src="../../assets/media/icons/Profile.png" class="mx-3">
         </router-link>
+
+        <router-link to="/acctype">
+          <img src="../../assets/media/icons/login.png" class="mx-3">
+        </router-link>
       </div>
 
       <div class="collapse navbar-collapse order-4 col-12 mt-3" id="navbarSupportedContent">

@@ -1,10 +1,13 @@
 <template>
   <div class="home">
+    <!-- START:: HOME SLIDER -->
     <TheCarousel
       :carouselData="galleries"
     />
+    <!-- START:: HOME SLIDER -->
 
-    <div class="top_rated py-5">
+    <!-- START:: TOP VISITED SECTION -->
+    <div class="top_visited py-5">
       <div class="header_wraper mb-4">
         <h2> الأكثر زيارة </h2>
       </div>
@@ -40,6 +43,46 @@
         </div>
       </div>
     </div>
+    <!-- END:: TOP VISITED SECTION -->
+
+    <!-- START:: TOP RATED SECTION -->
+    <div class="top_rated py-5">
+      <div class="header_wraper mb-4">
+        <h2> الأعلى تقيم </h2>
+      </div>
+      <div class="container">
+        <div class="row justify-content-center">
+
+          <div
+            v-for=" card in top_rated "
+            :key=" card.id "
+            class="col-9 col-md-3 my-3"
+          >
+            <div class="card">
+              <div class="card_img">
+                <img :src="card.main_image">
+              </div>
+
+              <div class="card_body">
+                <h5 class="title">
+                  {{ card.name }}
+                  <RatingStars
+                    :rate="card.rate"
+                  />
+                  <span> {{ card.rate }} </span>
+                </h5>
+                <h6 class="location">
+                  <img src="../assets/media/icons/location.png">
+                  {{ card.location }}
+                </h6>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!-- END:: TOP RATED SECTION -->
 
   </div>
 </template> 
@@ -81,6 +124,7 @@ export default {
 @import '../assets/sass/main.scss';
 
 .home {
+  .top_visited, 
   .top_rated {
     .header_wraper {
       @include flexCenterAlignment;
