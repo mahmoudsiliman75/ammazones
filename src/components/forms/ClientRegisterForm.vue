@@ -7,7 +7,7 @@
         <div class="form-group field_img mt-4">
           <input id="pro_img" name="image" type='file' @change="handleFileInputChange" />
           <label for="pro_img">
-            <img id="product_img" src="../../assets/media/img_placeholder.png" alt="your image" />
+            <img id="img" src="../../assets/media/img_placeholder.png" alt="your image" />
           </label>
           <div 
             class="alert alert-danger mt-3 p-1" 
@@ -198,7 +198,7 @@ export default {
       if (e.target.files && e.target.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-          document.querySelector('#product_img').setAttribute('src', e.target.result);
+          document.querySelector('#img').setAttribute('src', e.target.result);
         };
         reader.readAsDataURL(e.target.files[0]);
       }

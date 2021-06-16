@@ -1,21 +1,20 @@
 <template>
-  <form class="client_register_form" @submit.prevent="submitForm">
-    <h1> Provider Registeration </h1>
+  <form class="client_register_form" @submit.prevent="submitForm">  
     <p class="create_acc_text">  لديك حساب بالفعل؟ <router-link :to="{name: 'LoginForm', params: { type: this.$route.params.type } }"> تسجيل دخول </router-link> </p>
     <div class="row justify-content-center">
 
       <div class="col-12 my-2 d-flex justify-content-center align-items-center">
         <div class="form-group field_img mt-4">
-          <input id="pro_img" name="image" type='file' @change="handleFileInputChange" />
+          <input id="pro_img" name="image" type='file' multiple @change="handleFileInputChange" />
           <label for="pro_img">
-            <img id="product_img" src="../../assets/media/img_placeholder.png" alt="your image" />
+            <img id="img" src="../../assets/media/img_placeholder.png" alt="your image" />
           </label>
           <div 
-            class="alert alert-danger mt-3 p-1" 
+            class="alert alert-danger my-3 p-1" 
             role="alert" 
-            v-if="!avatarIsValid"
+            v-if="!imagesIsValid"
           >
-            {{avatarValidationMsg}}
+            {{imagesValidationMsg}}
           </div>
         </div>
       </div>
@@ -111,6 +110,60 @@
 
       <div class="col-12 col-md-6 my-2">
         <div class="form-group mt-4">
+          <select class="form-control" v-model="regData.category_id">
+            <option value="" disabled> النشاط </option>
+            <option
+              v-for="cat in cats"
+              :key="cat.id"
+              :value="cat.id"
+            > 
+              {{cat.name}} 
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="tele" class="form-control" id="whats" v-model="regData.whatsapp" placeholder="رقم الواتس اب">
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!whatsappIsValid"
+          >
+            {{whatsappValidationMsg}}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="text" class="form-control" id="manifest_no" v-model="regData.manifest_no" placeholder="بيان المتجر">
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!manifest_noIsValid"
+          >
+            {{manifest_noValidationMsg}}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
+          <input type="text" class="form-control" v-model="regData.commercial_no" placeholder=" السجل التجاري ">
+          <div 
+            class="alert alert-danger mt-3 p-1" 
+            role="alert" 
+            v-if="!commercial_noIsValid"
+          >
+            {{commercial_noValidationMsg}}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 my-2">
+        <div class="form-group mt-4">
           <input type="password" class="form-control" id="password" v-model.trim="regData.password"  placeholder="كلمة المرور">
           <div 
             class="alert alert-danger mt-3 p-1" 
@@ -152,10 +205,12 @@ export default {
     return {
       countries: null,
       areas: null, 
+      cats: null,
+
       data: new FormData(),
 
-      avatarIsValid: true,
-      avatarValidationMsg: '',
+      imagesIsValid: true,
+      imagesValidationMsg: '',
 
       nameIsValid: true,
       nameValidationMsg: '',
@@ -172,6 +227,15 @@ export default {
       areaIsValid: true,
       areaValidationMsg: '',
 
+      whatsappIsValid: true,
+      whatsappValidationMsg: '',
+
+      manifest_noIsValid: true,
+      manifest_noValidationMsg: '',
+
+      commercial_noIsValid: true,
+      commercial_noValidationMsg: '',
+
       passwordIsValid: true,
       passwordValidationMsg: '',
 
@@ -182,7 +246,10 @@ export default {
 
   mounted() {
     axios.get('http://elsaed.rmal.com.sa/ammazones/public/api/general/all-countries')
-    .then( res => this.countries = res.data.data)
+    .then( res => this.countries = res.data.data);
+
+    axios.get('http://elsaed.rmal.com.sa/ammazones/public/api/general/all-categories')
+    .then( res => this.cats = res.data.data);
   },
 
   methods: {
@@ -194,12 +261,17 @@ export default {
     },
 
     handleFileInputChange(e) {
-      console.log(e.target)
-      this.data.append('avatar', e.target.files[0]);
+      let imgs_arr = [];
+      for (let i = 0; i < e.target.files.length; i++) {
+        imgs_arr.push( e.target.files[i] )
+      }
+      console.log(imgs_arr);
+      this.data.append('images', imgs_arr);
+
       if (e.target.files && e.target.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-          document.querySelector('#product_img').setAttribute('src', e.target.result);
+          document.querySelector('#img').setAttribute('src', e.target.result);
         };
         reader.readAsDataURL(e.target.files[0]);
       }
@@ -213,25 +285,33 @@ export default {
     },
 
     submitForm() {
-      this.data.append('type', 'user');
+      this.data.append('type', 'provider');
       this.data.append('name', this.regData.name);
       this.data.append('email', this.regData.email);
       this.data.append('phone', this.regData.phone);
+      this.data.append('whatsapp', this.regData.whatsapp);
       this.data.append('area', this.regData.area);
       this.data.append('city_id', this.regData.city_id);
+      this.data.append('description', this.regData.description);
+      this.data.append('category_id', this.regData.category_id);
+      this.data.append('commercial_no', this.regData.commercial_no);
+      this.data.append('manifest_no', this.regData.manifest_no);
       this.data.append('password', this.regData.password);
       this.data.append('password_confirmation', this.regData.password_confirmation);
 
-      this.avatarIsValid = true;
+      this.imagesIsValid = true;
       this.nameIsValid = true;
       this.phoneIsValid = true;
       this.emailIsValid = true;
       this.cityIsValid = true;
       this.areaIsValid = true;
+      this.whatsappIsValid = true;
+      this.manifest_noIsValid = true;
+      this.commercial_noIsValid = true;
       this.passwordIsValid = true;
       this.password_confirmationIsValid = true;
 
-      axios.post('http://elsaed.rmal.com.sa/ammazones/public/api/auth/clientRegister', this.data)
+      axios.post('http://elsaed.rmal.com.sa/ammazones/public/api/auth/providerRegister', this.data)
       .then( res => {
         if ( res.data.status == true ) {
           this.showAlert(res.data.msg);
@@ -239,8 +319,13 @@ export default {
           this.regData.user_name = '';
           this.regData.email = '';
           this.regData.phone = '';
+          this.regData.whatsapp = ''
           this.regData.area = '';
           this.regData.city_id = '';
+          this.regData.description = '';
+          this.regData.category_id = '';
+          this.regData.commercial_no = '';
+          this.regData.manifest_no = '';
           this.regData.password = '';
           this.regData.password_confirmation = '';
 
@@ -251,9 +336,9 @@ export default {
       })
       .catch( error => {
         console.log(error.response.data ) 
-        if ( error.response.data.field == 'avatar' ) {
-          this.avatarIsValid = false;
-          this.avatarValidationMsg = error.response.data.msg;
+        if ( error.response.data.field == 'images' ) {
+          this.imagesIsValid = false;
+          this.imagesValidationMsg = error.response.data.msg;
         } else if ( error.response.data.field == 'name' ) {
           this.nameIsValid = false;
           this.nameValidationMsg = error.response.data.msg;
@@ -269,6 +354,15 @@ export default {
         } else if ( error.response.data.field == 'area' ) {
           this.areaIsValid = false;
           this.areaValidationMsg = error.response.data.msg;
+        } else if ( error.response.data.field == 'whatsapp' ) {
+          this.whatsappIsValid = false;
+          this.whatsappValidationMsg = error.response.data.msg;
+        } else if ( error.response.data.field == 'manifest_no' ) {
+          this.manifest_noIsValid = false;
+          this.manifest_noValidationMsg = error.response.data.msg;
+        } else if ( error.response.data.field == 'commercial_no' ) {
+          this.commercial_noIsValid = false;
+          this.commercial_noValidationMsg = error.response.data.msg;
         } else if ( error.response.data.field == 'password' ) {
           this.passwordIsValid = false;
           this.passwordValidationMsg = error.response.data.msg;

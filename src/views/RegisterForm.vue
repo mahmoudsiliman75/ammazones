@@ -16,7 +16,7 @@
 
     <ProviderRegisterForm 
       v-if="this.$route.path === '/register/provider' "
-      :regData="clientRegisterData"
+      :regData="providerRegisterData"
     />
   </div>
 </template>
@@ -43,7 +43,25 @@ export default {
         avatar: '',
         password: '',
         password_confirmation: ''
-      }
+      },
+
+      providerRegisterData: {
+        type: 'provider',
+        name: '',
+        email: '',
+        phone: '',
+        whatsapp: '',
+        area: '',
+        city_id: '',
+        commercial_no: '',
+        manifest_no: '',
+        description: '',
+        category_id: '',
+        password: '',
+        password_confirmation: '',
+        images: [],
+        user_name: '',
+      },
     }
   }
 }
