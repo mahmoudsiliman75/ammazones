@@ -1,24 +1,39 @@
 <template>
   <div class="home">
-    <h1>Welcome to Home Page"</h1>
+    <TheCarousel
+      :carouselData="galleries"
+    />
+
+
   </div>
 </template> 
 
 <script>
 import axios from 'axios';
+import TheCarousel from '../components/ui/TheCarousel.vue';
 
 export default {
+  components: {
+    TheCarousel
+  },
+
   data() {
     return {
-      homeData: null,
+      galleries: null,
+      top_visited: null,
+      top_rated: null,
     }
   },
 
   mounted() {
     axios.get('http://elsaed.rmal.com.sa/ammazones/public/api/general/homePage')
     .then( res => {
-      this.homeData = res.data.data[0] 
-      console.log(this.homeData);
+      this.galleries = res.data.data[0].galleries;
+      this.top_visited = res.data.data[0].top_visited;
+      this.top_rated = res.data.data[0].top_rated;
+      console.log(this.galleries);
+      console.log(this.top_visited);
+      console.log(this.top_rated);
     })
   }
 };
@@ -27,11 +42,5 @@ export default {
 <style scoped lang="scss">
 @import '../assets/sass/main.scss';
 
-h1 {
-  color: $mainColor;
-  margin: 40px 0 0;
-}
-a {
-  color: #42b983;
-}
+
 </style>

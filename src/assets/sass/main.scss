@@ -14,3 +14,13 @@
   @include boxSizing;
   font-family: 'Cairo', sans-serif;
 }
+
+html {
+  &::-webkit-scrollbar {
+    background-color: $lighterGray;
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $mainColor;
+  }
+}
