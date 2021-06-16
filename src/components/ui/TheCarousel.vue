@@ -56,5 +56,18 @@ export default {
       }
     }
   }
+
+  @media ( max-width: 767px ) {
+    .carousel-inner {
+      min-height: 350px;
+      max-height: 350px;
+      .carousel-item {
+        img {
+          min-height: 350px;
+          max-height: 350px;
+        }
+      }
+    }
+  }
 }
 </style>

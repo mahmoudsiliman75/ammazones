@@ -4,15 +4,18 @@
       v-if="handleShowNav"
     />
     <router-view />
+    <TheFooter />
   </div>
 </template>
 
 <script>
 import NavBar from './components/ui/NavBar.vue';
+import TheFooter from './components/ui/TheFooter.vue';
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    TheFooter
   },
 
   computed: {
