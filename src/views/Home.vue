@@ -5,8 +5,22 @@
 </template> 
 
 <script>
+import axios from 'axios';
+
 export default {
-  name: "Home",
+  data() {
+    return {
+      homeData: null,
+    }
+  },
+
+  mounted() {
+    axios.get('http://elsaed.rmal.com.sa/ammazones/public/api/general/homePage')
+    .then( res => {
+      this.homeData = res.data.data[0] 
+      console.log(this.homeData);
+    })
+  }
 };
 </script>
 

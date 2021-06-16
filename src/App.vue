@@ -1,15 +1,20 @@
 <template>
   <div id="app">
-    <div id="nav" v-if="handleShowNav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/acctype">Login</router-link>
-    </div>
+    <NavBar
+      v-if="handleShowNav"
+    />
     <router-view />
   </div>
 </template>
 
 <script>
+import NavBar from './components/ui/NavBar.vue';
+
 export default {
+  components: {
+    NavBar
+  },
+
   computed: {
     handleShowNav() {
       if (this.$route.path == "/acctype" || this.$route.path.includes("/login") || this.$route.path.includes("/register")) {
@@ -30,16 +35,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 </style>
